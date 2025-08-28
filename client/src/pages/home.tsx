@@ -36,13 +36,16 @@ export default function Home() {
     localStorage.setItem("theme", newTheme ? "dark" : "light");
   };
 
-  // Initialize classes from Google Sheets on first load (only once)
+  // Initialize classes from Google Sheets on first load
   useEffect(() => {
     const initializeData = async () => {
       try {
-        // Check if data has already been loaded
-        const hasInitialized = localStorage.getItem("classes_initialized");
-        if (!hasInitialized) {
+        // Check if we have any classes in the database
+        const checkResponse = await fetch("/api/classes");
+        const existingClasses = await checkResponse.json();
+        
+        if (existingClasses.length === 0) {
+          console.log("No classes found, loading from Google Sheets...");
           const sheetsData = await parseGoogleSheetsData();
           if (sheetsData.length > 0) {
             await fetch("/api/classes/bulk", {
@@ -50,8 +53,10 @@ export default function Home() {
               headers: { "Content-Type": "application/json" },
               body: JSON.stringify(sheetsData),
             });
-            localStorage.setItem("classes_initialized", "true");
+            console.log("Classes loaded successfully!");
           }
+        } else {
+          console.log(`Found ${existingClasses.length} existing classes`);
         }
       } catch (error) {
         console.error("Failed to initialize data:", error);
