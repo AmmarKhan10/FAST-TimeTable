@@ -10,20 +10,26 @@ export async function registerRoutes(app: Express): Promise<Server> {
   app.get("/api/classes", async (req, res) => {
     try {
       const { day, search, classCode } = req.query;
+      console.log(`API request - day: '${day}', search: '${search}', classCode: '${classCode}'`);
       
       let classes;
       if (search) {
         classes = await storage.searchClasses(search as string);
+        console.log(`Search returned ${classes.length} classes`);
       } else if (classCode) {
         classes = await storage.getClassesByCode(classCode as string);
+        console.log(`ClassCode search returned ${classes.length} classes`);
       } else if (day && day !== 'all') {
         classes = await storage.getClassesByDay(day as string);
+        console.log(`Day '${day}' filter returned ${classes.length} classes`);
       } else {
         classes = await storage.getAllClasses();
+        console.log(`GetAll returned ${classes.length} classes`);
       }
       
       res.json(classes);
     } catch (error) {
+      console.error("API error:", error);
       res.status(500).json({ message: "Failed to fetch classes" });
     }
   });
