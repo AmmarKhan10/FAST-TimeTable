@@ -204,7 +204,7 @@ export async function parseGoogleSheetsData(): Promise<InsertClass[]> {
           if (!classCode || !subject) continue;
           
           // Get time slot
-          const timeSlot = timeSlots[slotIndex.toString()];
+          const timeSlot = timeSlots[slotIndex.toString() as keyof typeof timeSlots];
           if (!timeSlot) continue;
           
           classes.push({
@@ -232,6 +232,8 @@ export async function parseGoogleSheetsData(): Promise<InsertClass[]> {
   } catch (error) {
     console.error("Failed to parse Google Sheets data:", error);
     console.log("Falling back to sample data");
-    return getSampleClassData();
+    const fallbackClasses = getSampleClassData();
+    console.log("Fallback data loaded:", fallbackClasses.length);
+    return fallbackClasses;
   }
 }
