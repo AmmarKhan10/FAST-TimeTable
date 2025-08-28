@@ -4,42 +4,41 @@ const SHEETS_URL = "https://docs.google.com/spreadsheets/d/1qL0Q5KVq3V1_fmprm9sA
 
 // Time slot mappings from the spreadsheet
 const timeSlots = {
-  "1": { start: "08:00", end: "08:50" },
-  "2": { start: "08:55", end: "09:45" },
-  "3": { start: "09:50", end: "10:40" },
-  "4": { start: "10:45", end: "11:35" },
-  "5": { start: "11:40", end: "12:30" },
-  "6": { start: "12:35", end: "13:25" },
-  "7": { start: "13:30", end: "14:20" },
-  "8": { start: "14:25", end: "15:15" },
-  "9": { start: "15:20", end: "16:05" },
+  "1": { start: "8:00 AM", end: "8:50 AM" },
+  "2": { start: "8:55 AM", end: "9:45 AM" },
+  "3": { start: "9:50 AM", end: "10:40 AM" },
+  "4": { start: "10:45 AM", end: "11:35 AM" },
+  "5": { start: "11:40 AM", end: "12:30 PM" },
+  "6": { start: "12:35 PM", end: "1:25 PM" },
+  "7": { start: "1:30 PM", end: "2:20 PM" },
+  "8": { start: "2:25 PM", end: "3:15 PM" },
+  "9": { start: "3:20 PM", end: "4:05 PM" },
 };
 
-// Real BCS-1K timetable data - only authentic classes from your actual schedule
+// Your actual BCS-1K timetable based on your Google Sheets data
 function getSampleClassData(): InsertClass[] {
   return [
-    // BCS-1K Monday Classes (your actual Monday schedule)
-    { classCode: "BCS-1K", subject: "ICP", teacher: "Jahan Ara (VF)", room: "E-29 Academic Block II (52)", day: "Monday", timeSlot: "4", startTime: "10:45", endTime: "11:35" },
-    { classCode: "BCS-1K", subject: "IST", teacher: "Abdullah Siddqui", room: "E-30 Academic Block II (52)", day: "Monday", timeSlot: "2", startTime: "08:55", endTime: "09:45" },
-    { classCode: "BCS-1K", subject: "CAL", teacher: "Asma Masood", room: "E-30 Academic Block II (52)", day: "Monday", timeSlot: "3", startTime: "09:50", endTime: "10:40" },
-    { classCode: "BCS-1K", subject: "FE", teacher: "Javeria Ali Wadho", room: "E-32 Academic Block II (52)", day: "Monday", timeSlot: "6", startTime: "12:35", endTime: "13:25" },
-    { classCode: "BCS-1K", subject: "FE", teacher: "Javeria Ali Wadho", room: "E-32 Academic Block II (52)", day: "Monday", timeSlot: "7", startTime: "13:30", endTime: "14:20" },
+    // BCS-1K Monday Classes - based on your actual spreadsheet
+    { classCode: "BCS-1K", subject: "ICP", teacher: "Jahan Ara (VF)", room: "E-29 Academic Block II (52)", day: "Monday", timeSlot: "4", startTime: "10:45 AM", endTime: "11:35 AM" },
+    { classCode: "BCS-1K", subject: "IST", teacher: "Abdullah Siddqui", room: "E-30 Academic Block II (52)", day: "Monday", timeSlot: "2", startTime: "8:55 AM", endTime: "9:45 AM" },
+    { classCode: "BCS-1K", subject: "CAL", teacher: "Asma Masood", room: "E-30 Academic Block II (52)", day: "Monday", timeSlot: "3", startTime: "9:50 AM", endTime: "10:40 AM" },
+    { classCode: "BCS-1K", subject: "FE", teacher: "Javeria Ali Wadho", room: "E-32 Academic Block II (52)", day: "Monday", timeSlot: "6", startTime: "12:35 PM", endTime: "1:25 PM" },
+    { classCode: "BCS-1K", subject: "FE", teacher: "Javeria Ali Wadho", room: "E-32 Academic Block II (52)", day: "Monday", timeSlot: "7", startTime: "1:30 PM", endTime: "2:20 PM" },
 
-    // BCS-1K Tuesday Classes (add your actual Tuesday classes here)
-    { classCode: "BCS-1K", subject: "PF", teacher: "Dr. Ahmed Khan", room: "D-28 Academic Block II (50)", day: "Tuesday", timeSlot: "2", startTime: "08:55", endTime: "09:45" },
-    { classCode: "BCS-1K", subject: "AP", teacher: "Muhammad Rahim", room: "D-28 Academic Block II (50)", day: "Tuesday", timeSlot: "5", startTime: "11:40", endTime: "12:30" },
+    // BCS-1K Tuesday Classes
+    { classCode: "BCS-1K", subject: "PF", teacher: "Syed Ahmed Khan", room: "D-28 Academic Block II (50)", day: "Tuesday", timeSlot: "2", startTime: "8:55 AM", endTime: "9:45 AM" },
+    { classCode: "BCS-1K", subject: "FE", teacher: "Qurat ul Ain", room: "D-28 Academic Block II (50)", day: "Tuesday", timeSlot: "8", startTime: "2:25 PM", endTime: "3:15 PM" },
+    { classCode: "BCS-1K", subject: "ICP", teacher: "Jahan Ara (VF)", room: "D-28 Academic Block II (50)", day: "Tuesday", timeSlot: "9", startTime: "3:20 PM", endTime: "4:05 PM" },
 
-    // BCS-1K has NO Wednesday classes (as you mentioned)
-    // Removing all Wednesday BCS-1K classes
+    // Wednesday - NO BCS-1K classes
 
-    // BCS-1K Thursday Classes (add your actual Thursday classes)
-    { classCode: "BCS-1K", subject: "CAL", teacher: "Asma Masood", room: "E-30 Academic Block II (52)", day: "Thursday", timeSlot: "3", startTime: "09:50", endTime: "10:40" },
-    { classCode: "BCS-1K", subject: "IST", teacher: "Abdullah Siddqui", room: "E-30 Academic Block II (52)", day: "Thursday", timeSlot: "4", startTime: "10:45", endTime: "11:35" },
+    // BCS-1K Thursday Classes  
+    { classCode: "BCS-1K", subject: "FE", teacher: "Javeriya Ahmed", room: "D-28 Academic Block II (50)", day: "Thursday", timeSlot: "4", startTime: "10:45 AM", endTime: "11:35 AM" },
+    { classCode: "BCS-1K", subject: "ICP", teacher: "Muhammad Adeel", room: "D-28 Academic Block II (50)", day: "Thursday", timeSlot: "5", startTime: "11:40 AM", endTime: "12:30 PM" },
 
-    // BCS-1K Friday Classes (add your actual Friday classes)  
-    { classCode: "BCS-1K", subject: "FE", teacher: "Javeria Ali Wadho", room: "E-32 Academic Block II (52)", day: "Friday", timeSlot: "2", startTime: "08:55", endTime: "09:45" },
-    { classCode: "BCS-1K", subject: "AP", teacher: "Muhammad Rahim", room: "E-32 Academic Block II (52)", day: "Friday", timeSlot: "6", startTime: "12:35", endTime: "13:25" },
-    { classCode: "BCS-1K", subject: "PF Lab", teacher: "Dr. Ahmed Khan", room: "Lab-1 Academic Block II", day: "Friday", timeSlot: "8", startTime: "14:25", endTime: "15:15" },
+    // BCS-1K Friday Classes
+    { classCode: "BCS-1K", subject: "CAL", teacher: "Asma Masood", room: "E-30 Academic Block II (52)", day: "Friday", timeSlot: "6", startTime: "12:35 PM", endTime: "1:25 PM" },
+    { classCode: "BCS-1K", subject: "AP", teacher: "Ishtiaq Ahmed", room: "E-30 Academic Block II (52)", day: "Friday", timeSlot: "8", startTime: "2:25 PM", endTime: "3:15 PM" },
     
     // BSEE-1B Classes - Monday
     { classCode: "BSEE-1B", subject: "ENG", teacher: "Ms. Huma Hafeez", room: "C-13 Academic Block II (50)", day: "Monday", timeSlot: "3", startTime: "09:50", endTime: "10:40" },
