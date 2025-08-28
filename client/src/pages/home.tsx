@@ -57,12 +57,24 @@ export default function Home() {
   }, []);
 
   const { data: allClasses = [], isLoading } = useQuery({
-    queryKey: ["/api/classes", { day: selectedDay, search: searchQuery }],
+    queryKey: ["/api/classes", selectedDay, searchQuery],
+    queryFn: async () => {
+      const params = new URLSearchParams();
+      if (selectedDay !== "all") params.append("day", selectedDay);
+      if (searchQuery) params.append("search", searchQuery);
+      const url = `/api/classes${params.toString() ? `?${params.toString()}` : ""}`;
+      const response = await fetch(url);
+      return response.json();
+    },
     enabled: selectedView === "all",
   });
 
   const { data: myClasses = [] } = useQuery({
-    queryKey: ["/api/classes", { search: "" }],
+    queryKey: ["/api/classes", "all", ""],
+    queryFn: async () => {
+      const response = await fetch("/api/classes");
+      return response.json();
+    },
     select: (classes: Class[]) => classes.filter(cls => myClassIds.includes(cls.id)),
     enabled: selectedView === "my",
   });
