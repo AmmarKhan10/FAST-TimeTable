@@ -110,6 +110,7 @@ export class MemStorage implements IStorage {
     const newAssignment: Assignment = { 
       ...assignment, 
       id, 
+      completed: assignment.completed || false,
       createdAt: new Date()
     };
     this.assignments.set(id, newAssignment);

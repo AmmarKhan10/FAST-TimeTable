@@ -14,15 +14,15 @@ export default function SearchBar({ value, onChange }: SearchBarProps) {
   const [suggestions, setSuggestions] = useState<string[]>([]);
   const inputRef = useRef<HTMLInputElement>(null);
 
-  const { data: allClasses = [] } = useQuery({
+  const { data: allClasses = [] } = useQuery<Class[]>({
     queryKey: ["/api/classes"],
   });
 
   useEffect(() => {
-    if (value.length > 0 && allClasses.length > 0) {
-      const classCodes = Array.from(new Set(allClasses.map((cls: Class) => cls.classCode)));
+    if (value.length > 0 && (allClasses as Class[]).length > 0) {
+      const classCodes = Array.from(new Set((allClasses as Class[]).map((cls: Class) => cls.classCode)));
       const filteredSuggestions = classCodes
-        .filter(code => code.toLowerCase().includes(value.toLowerCase()))
+        .filter((code: string) => code.toLowerCase().includes(value.toLowerCase()))
         .slice(0, 5);
       
       setSuggestions(filteredSuggestions);

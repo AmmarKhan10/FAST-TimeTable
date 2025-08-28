@@ -67,10 +67,10 @@ export default function Home() {
     enabled: selectedView === "my",
   });
 
-  const displayClasses = selectedView === "my" ? myClasses : allClasses;
+  const displayClasses = selectedView === "my" ? myClasses : (allClasses as Class[]);
   const filteredClasses = selectedDay === "all" 
     ? displayClasses 
-    : displayClasses.filter(cls => cls.day.toLowerCase() === selectedDay.toLowerCase());
+    : displayClasses.filter((cls: Class) => cls.day.toLowerCase() === selectedDay.toLowerCase());
 
   const handleAddToMyClasses = (classId: string) => {
     addToMyClasses(classId);
@@ -207,7 +207,7 @@ export default function Home() {
                     </Card>
                   ))
                 ) : (
-                  filteredClasses.map((classItem) => (
+                  filteredClasses.map((classItem: Class) => (
                     <ClassCard
                       key={classItem.id}
                       classData={classItem}

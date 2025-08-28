@@ -18,7 +18,7 @@ export default function AssignmentManager() {
   });
   const { toast } = useToast();
 
-  const { data: assignments = [], isLoading } = useQuery({
+  const { data: assignments = [], isLoading } = useQuery<Assignment[]>({
     queryKey: ["/api/assignments"],
   });
 
@@ -78,7 +78,7 @@ export default function AssignmentManager() {
   const formatDueDate = (dateString: string) => {
     const date = new Date(dateString);
     const today = new Date();
-    const isOverdue = date < today && !assignments.find(a => a.dueDate === dateString)?.completed;
+    const isOverdue = date < today && !(assignments as Assignment[]).find((a: Assignment) => a.dueDate === dateString)?.completed;
     
     return {
       formatted: date.toLocaleDateString(),
@@ -161,7 +161,7 @@ export default function AssignmentManager() {
                 <div className="h-3 bg-muted rounded w-1/2"></div>
               </div>
             ))
-          ) : assignments.length === 0 ? (
+          ) : (assignments as Assignment[]).length === 0 ? (
             <div className="text-center py-8" data-testid="empty-assignments">
               <div className="w-12 h-12 mx-auto mb-3 rounded-full bg-muted flex items-center justify-center">
                 <CheckCircle className="h-5 w-5 text-muted-foreground" />
@@ -170,7 +170,7 @@ export default function AssignmentManager() {
               <p className="text-xs text-muted-foreground">Click + to add your first assignment</p>
             </div>
           ) : (
-            assignments.map((assignment) => {
+            (assignments as Assignment[]).map((assignment: Assignment) => {
               const { formatted, isOverdue } = formatDueDate(assignment.dueDate);
               
               return (
