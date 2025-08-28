@@ -70,19 +70,25 @@ export default function Home() {
   });
 
   const { data: myClasses = [] } = useQuery({
-    queryKey: ["/api/classes", "all", ""],
+    queryKey: ["/api/classes", "my", selectedDay],
     queryFn: async () => {
       const response = await fetch("/api/classes");
-      return response.json();
+      const allClasses = await response.json();
+      const mySelectedClasses = allClasses.filter((cls: Class) => myClassIds.includes(cls.id));
+      // Filter by day if not "all"
+      if (selectedDay === "all") {
+        return mySelectedClasses;
+      } else {
+        return mySelectedClasses.filter((cls: Class) => cls.day.toLowerCase() === selectedDay.toLowerCase());
+      }
     },
-    select: (classes: Class[]) => classes.filter(cls => myClassIds.includes(cls.id)),
     enabled: selectedView === "my",
   });
 
   const displayClasses = selectedView === "my" ? myClasses : (allClasses as Class[]);
-  const filteredClasses = selectedDay === "all" 
-    ? displayClasses 
-    : displayClasses.filter((cls: Class) => cls.day.toLowerCase() === selectedDay.toLowerCase());
+  // For "my" view, filtering is already done in the query
+  // For "all" view, filtering is done in the query via URL params
+  const filteredClasses = displayClasses;
 
   const handleAddToMyClasses = (classId: string) => {
     addToMyClasses(classId);
