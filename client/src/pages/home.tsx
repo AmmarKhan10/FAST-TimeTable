@@ -68,8 +68,11 @@ export default function Home() {
       if (selectedDay !== "all") params.append("day", selectedDay);
       if (searchQuery) params.append("search", searchQuery);
       const url = `/api/classes${params.toString() ? `?${params.toString()}` : ""}`;
+      console.log("Fetching classes with URL:", url);
       const response = await fetch(url);
-      return response.json();
+      const data = await response.json();
+      console.log(`API returned ${data.length} classes for ${selectedDay}`, data.slice(0, 3));
+      return data;
     },
     enabled: selectedView === "all",
   });
