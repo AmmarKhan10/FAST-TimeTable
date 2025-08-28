@@ -142,16 +142,9 @@ export default function Home() {
             >
               {isDark ? <Sun className="h-4 w-4" /> : <Moon className="h-4 w-4" />}
             </Button>
-            <div className="flex items-center space-x-3">
-              <img 
-                src="https://images.unsplash.com/photo-1507003211169-0a1dd7228f2d?ixlib=rb-4.0.3&auto=format&fit=crop&w=100&h=100" 
-                alt="Ammar Khan profile" 
-                className="w-8 h-8 rounded-full"
-              />
-              <div className="hidden md:block">
-                <p className="text-sm font-medium">Ammar Khan</p>
-                <p className="text-xs text-muted-foreground">Computer Science</p>
-              </div>
+            <div className="hidden md:block">
+              <p className="text-sm font-medium">Ammar Khan</p>
+              <p className="text-xs text-muted-foreground">Computer Science</p>
             </div>
           </div>
         </div>

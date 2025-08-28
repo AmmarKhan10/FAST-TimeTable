@@ -41,6 +41,12 @@ function getSampleClassData(): InsertClass[] {
     // BCS-1K Classes - Friday
     { classCode: "BCS-1K", subject: "CAL", teacher: "Asma Masood", room: "E-30 Academic Block II (52)", day: "Friday", timeSlot: "6", startTime: "12:35", endTime: "13:25" },
     { classCode: "BCS-1K", subject: "AP", teacher: "Ishtiaq Ahmed", room: "E-30 Academic Block II (52)", day: "Friday", timeSlot: "8", startTime: "14:25", endTime: "15:15" },
+    { classCode: "BCS-1K", subject: "ICP Lab", teacher: "Khushboo", room: "Lab-2 Academic Block II", day: "Friday", timeSlot: "9", startTime: "15:20", endTime: "16:05" },
+
+    // BCS-1K Lab Classes
+    { classCode: "BCS-1K", subject: "PF Lab", teacher: "Syed Ahmed Khan", room: "Lab-1 Academic Block II", day: "Tuesday", timeSlot: "3", startTime: "09:50", endTime: "10:40" },
+    { classCode: "BCS-1K", subject: "FE Lab", teacher: "Javeria Ali Wadho", room: "Lab-3 Academic Block II", day: "Wednesday", timeSlot: "7", startTime: "13:30", endTime: "14:20" },
+    { classCode: "BCS-1K", subject: "CAL Lab", teacher: "Asma Masood", room: "Lab-4 Academic Block II", day: "Thursday", timeSlot: "6", startTime: "12:35", endTime: "13:25" },
     
     // BSEE-1B Classes - Monday
     { classCode: "BSEE-1B", subject: "ENG", teacher: "Ms. Huma Hafeez", room: "C-13 Academic Block II (50)", day: "Monday", timeSlot: "3", startTime: "09:50", endTime: "10:40" },
