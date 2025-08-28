@@ -16,9 +16,19 @@ export async function registerRoutes(app: Express): Promise<Server> {
       if (search) {
         classes = await storage.searchClasses(search as string);
         console.log(`Search returned ${classes.length} classes`);
+        // Apply day filter to search results if day is specified
+        if (day && day !== 'all') {
+          classes = classes.filter(cls => cls.day.toLowerCase() === (day as string).toLowerCase());
+          console.log(`After day filter: ${classes.length} classes`);
+        }
       } else if (classCode) {
         classes = await storage.getClassesByCode(classCode as string);
         console.log(`ClassCode search returned ${classes.length} classes`);
+        // Apply day filter to classCode results if day is specified
+        if (day && day !== 'all') {
+          classes = classes.filter(cls => cls.day.toLowerCase() === (day as string).toLowerCase());
+          console.log(`After day filter: ${classes.length} classes`);
+        }
       } else if (day && day !== 'all') {
         classes = await storage.getClassesByDay(day as string);
         console.log(`Day '${day}' filter returned ${classes.length} classes`);

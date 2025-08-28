@@ -73,10 +73,8 @@ export default function Home() {
       if (selectedDay !== "all") params.append("day", selectedDay);
       if (searchQuery) params.append("search", searchQuery);
       const url = `/api/classes${params.toString() ? `?${params.toString()}` : ""}`;
-      console.log("Fetching classes with URL:", url, "for day:", selectedDay);
       const response = await fetch(url);
       const data = await response.json();
-      console.log(`API returned ${data.length} classes for day '${selectedDay}'`);
       return data;
     },
     enabled: selectedView === "all",
