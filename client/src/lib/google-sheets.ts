@@ -113,22 +113,125 @@ function getSampleClassData(): InsertClass[] {
   ];
 }
 
+// Helper function to convert 24-hour time to 12-hour format
+function convertTo12Hour(time24: string): string {
+  const [hours, minutes] = time24.split(':');
+  const hour = parseInt(hours);
+  const ampm = hour >= 12 ? 'PM' : 'AM';
+  const hour12 = hour === 0 ? 12 : hour > 12 ? hour - 12 : hour;
+  return `${hour12}:${minutes} ${ampm}`;
+}
+
+// Helper function to parse class code from cell content
+function parseClassCode(cellContent: string): string | null {
+  const match = cellContent.match(/([A-Z]+(?:-\d+[A-Z]?)+)/);
+  return match ? match[1] : null;
+}
+
+// Helper function to parse subject from cell content
+function parseSubject(cellContent: string): string {
+  const parts = cellContent.split('<br>')[0].trim();
+  const classCodeMatch = parts.match(/^([A-Z]+(?:\s+[A-Z]+)*)\s+([A-Z]+(?:-\d+[A-Z]?)+)/);
+  return classCodeMatch ? classCodeMatch[1] : parts.split(' ')[0];
+}
+
+// Helper function to parse teacher from cell content
+function parseTeacher(cellContent: string): string {
+  const parts = cellContent.split('<br>');
+  return parts.length > 1 ? parts[1].trim() : '';
+}
+
 export async function parseGoogleSheetsData(): Promise<InsertClass[]> {
   try {
-    // For now, return the sample data that includes your BCS-1K classes
-    // In a production app, this would parse the actual Google Sheets data
-    const classes = getSampleClassData();
+    console.log("Fetching real data from Google Sheets...");
+    const response = await fetch(SHEETS_URL);
+    const csvText = await response.text();
     
-    console.log("Loading sample timetable data");
+    const lines = csvText.split('\n');
+    const classes: InsertClass[] = [];
+    
+    // Find Monday section
+    let currentDay = '';
+    let venueRowIndex = -1;
+    let timeRowIndex = -1;
+    
+    for (let i = 0; i < lines.length; i++) {
+      const line = lines[i];
+      
+      // Detect day headers
+      if (line.includes('MONDAY')) {
+        currentDay = 'Monday';
+        continue;
+      } else if (line.includes('TUESDAY')) {
+        currentDay = 'Tuesday';
+        continue;
+      } else if (line.includes('WEDNESDAY')) {
+        currentDay = 'Wednesday';
+        continue;
+      } else if (line.includes('THURSDAY')) {
+        currentDay = 'Thursday';
+        continue;
+      } else if (line.includes('FRIDAY')) {
+        currentDay = 'Friday';
+        continue;
+      }
+      
+      // Find time slots row
+      if (line.includes('08:00-8:50') || line.includes('Venues/time')) {
+        timeRowIndex = i;
+        const timeRow = line.split(',');
+        continue;
+      }
+      
+      // Process classroom rows
+      if (currentDay && line.includes('Academic Block') && !line.includes('CLASSROOMS')) {
+        const cells = line.split(',');
+        const roomName = cells[0]?.trim();
+        
+        if (!roomName) continue;
+        
+        // Process each time slot (skip first cell which is room name)
+        for (let slotIndex = 1; slotIndex < Math.min(cells.length, 10); slotIndex++) {
+          const cellContent = cells[slotIndex]?.trim();
+          
+          if (!cellContent || cellContent === '') continue;
+          
+          // Parse class information
+          const classCode = parseClassCode(cellContent);
+          const subject = parseSubject(cellContent);
+          const teacher = parseTeacher(cellContent);
+          
+          if (!classCode || !subject) continue;
+          
+          // Get time slot
+          const timeSlot = timeSlots[slotIndex.toString()];
+          if (!timeSlot) continue;
+          
+          classes.push({
+            classCode,
+            subject,
+            teacher,
+            room: roomName,
+            day: currentDay,
+            timeSlot: slotIndex.toString(),
+            startTime: timeSlot.start,
+            endTime: timeSlot.end
+          });
+        }
+      }
+    }
+    
+    console.log("Real data loaded successfully!");
     console.log("Total classes loaded:", classes.length);
-    const bcs1kClasses = classes.filter(c => c.classCode.includes('BCS-1K'));
-    const bseeClasses = classes.filter(c => c.classCode.includes('BSEE-1B'));
+    const bcs1kClasses = classes.filter(c => c.classCode === 'BCS-1K');
+    const bseeClasses = classes.filter(c => c.classCode.includes('BSEE'));
     console.log("BCS-1K classes found:", bcs1kClasses.length);
-    console.log("BSEE-1B classes found:", bseeClasses.length);
+    console.log("BSEE classes found:", bseeClasses.length);
     
     return classes;
   } catch (error) {
-    console.error("Failed to load timetable data:", error);
-    return [];
+    console.error("Failed to parse Google Sheets data:", error);
+    console.log("Falling back to sample data");
+    return getSampleClassData();
   }
 }
