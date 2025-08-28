@@ -36,17 +36,22 @@ export default function Home() {
     localStorage.setItem("theme", newTheme ? "dark" : "light");
   };
 
-  // Initialize classes from Google Sheets on first load
+  // Initialize classes from Google Sheets on first load (only once)
   useEffect(() => {
     const initializeData = async () => {
       try {
-        const sheetsData = await parseGoogleSheetsData();
-        if (sheetsData.length > 0) {
-          await fetch("/api/classes/bulk", {
-            method: "POST",
-            headers: { "Content-Type": "application/json" },
-            body: JSON.stringify(sheetsData),
-          });
+        // Check if data has already been loaded
+        const hasInitialized = localStorage.getItem("classes_initialized");
+        if (!hasInitialized) {
+          const sheetsData = await parseGoogleSheetsData();
+          if (sheetsData.length > 0) {
+            await fetch("/api/classes/bulk", {
+              method: "POST",
+              headers: { "Content-Type": "application/json" },
+              body: JSON.stringify(sheetsData),
+            });
+            localStorage.setItem("classes_initialized", "true");
+          }
         }
       } catch (error) {
         console.error("Failed to initialize data:", error);

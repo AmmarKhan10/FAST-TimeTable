@@ -91,8 +91,23 @@ export class MemStorage implements IStorage {
   async bulkCreateClasses(classes: InsertClass[]): Promise<Class[]> {
     const createdClasses: Class[] = [];
     for (const classData of classes) {
-      const created = await this.createClass(classData);
-      createdClasses.push(created);
+      // Check if a class with the same details already exists
+      const existing = Array.from(this.classes.values()).find(
+        cls => 
+          cls.classCode === classData.classCode &&
+          cls.subject === classData.subject &&
+          cls.teacher === classData.teacher &&
+          cls.room === classData.room &&
+          cls.day === classData.day &&
+          cls.timeSlot === classData.timeSlot
+      );
+      
+      if (!existing) {
+        const created = await this.createClass(classData);
+        createdClasses.push(created);
+      } else {
+        createdClasses.push(existing);
+      }
     }
     return createdClasses;
   }
