@@ -25,10 +25,12 @@ function getSampleClassData(): InsertClass[] {
     { classCode: "BCS-1K", subject: "FE", teacher: "Javeria Ali Wadho", room: "E-32 Academic Block II (52)", day: "Monday", timeSlot: "6", startTime: "12:35 PM", endTime: "1:25 PM" },
     { classCode: "BCS-1K", subject: "FE", teacher: "Javeria Ali Wadho", room: "E-32 Academic Block II (52)", day: "Monday", timeSlot: "7", startTime: "1:30 PM", endTime: "2:20 PM" },
 
-    // BCS-1K Tuesday Classes
-    { classCode: "BCS-1K", subject: "PF", teacher: "Syed Ahmed Khan", room: "D-28 Academic Block II (50)", day: "Tuesday", timeSlot: "2", startTime: "8:55 AM", endTime: "9:45 AM" },
-    { classCode: "BCS-1K", subject: "FE", teacher: "Qurat ul Ain", room: "D-28 Academic Block II (50)", day: "Tuesday", timeSlot: "8", startTime: "2:25 PM", endTime: "3:15 PM" },
-    { classCode: "BCS-1K", subject: "ICP", teacher: "Jahan Ara (VF)", room: "D-28 Academic Block II (50)", day: "Tuesday", timeSlot: "9", startTime: "3:20 PM", endTime: "4:05 PM" },
+    // BCS-1K Tuesday Classes - Based on your actual schedule
+    { classCode: "BCS-1K", subject: "IST", teacher: "Abdullah Siddqui", room: "E-30 Academic Block II (52)", day: "Tuesday", timeSlot: "1", startTime: "8:00 AM", endTime: "8:50 AM" },
+    { classCode: "BCS-1K", subject: "CAL", teacher: "Asma Masood", room: "E-30 Academic Block II (52)", day: "Tuesday", timeSlot: "2", startTime: "8:55 AM", endTime: "9:45 AM" },
+    { classCode: "BCS-1K", subject: "PF", teacher: "Uzma Raza (VF)", room: "C-17 Academic Block II (59)", day: "Tuesday", timeSlot: "4", startTime: "10:45 AM", endTime: "11:35 AM" },
+    { classCode: "BCS-1K", subject: "ICP", teacher: "Jahan Ara (VF)", room: "E-30 Academic Block II (52)", day: "Tuesday", timeSlot: "5", startTime: "11:40 AM", endTime: "12:30 PM" },
+    { classCode: "BCS-1K", subject: "FE Lab", teacher: "Javeriya Ahmed", room: "LLC Academic Block I (R7) (50)", day: "Tuesday", timeSlot: "7", startTime: "1:30 PM", endTime: "4:05 PM" },
 
     // Wednesday - NO BCS-1K classes
 
